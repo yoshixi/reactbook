@@ -6,14 +6,28 @@
   </head>
   <body>
     <div id="app"></div>
+    <div id="app2"></div>
     <script src="react/react.js"></script>
     <script src="react/react-dom.js"></script>
     <script>
       ReactDOM.render(
-        React.DOM.h1({id : "my-heading"},
+        React.DOM.h1({id : "my-heading",
+                      style: {
+                        background: "black",
+                        color: "white",
+                      }
+                     },
+
+          React.DOM.span(null, React.DOM.em(null, "Hell"),
+          "o"
+          ),
         "Hello World"
         ),
         document.getElementById("app")
+      );
+      ReactDOM.render(
+        React.DOM.div({className: "s", htmlFor: "me"} , "sa"),
+        document.getElementById("app2")
       );
     </script>
   </body>
