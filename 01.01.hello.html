@@ -25,8 +25,21 @@
         ),
         document.getElementById("app")
       );
+
       ReactDOM.render(
         React.DOM.div({className: "s", htmlFor: "me"} , "sa"),
+        document.getElementById("app2")
+      );
+
+      var Component = React.createClass({ 
+        render: function () {
+          return React.DOM.span(null, "私は" +  this.props.name + "です");
+          this.props role is reading only
+        }
+      });
+      // var ComponentFactory = React.createFactory(Component);
+      ReactDOM.render(
+        React.createElement(Component, {name: "ボブ"}),
         document.getElementById("app2")
       );
     </script>
