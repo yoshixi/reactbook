@@ -7,6 +7,8 @@
   <body>
     <div id="app"></div>
     <div id="app2"></div>
+    <div id="app2-3-1"></div>
+    <div id="textarea"></div>
     <script src="react/react.js"></script>
     <script src="react/react-dom.js"></script>
     <script>
@@ -34,7 +36,7 @@
       var Component = React.createClass({ 
         render: function () {
           return React.DOM.span(null, "私は" +  this.props.name + "です");
-          this.props role is reading only
+         // this.props role is reading only
         }
       });
       // var ComponentFactory = React.createFactory(Component);
@@ -42,6 +44,91 @@
         React.createElement(Component, {name: "ボブ"}),
         document.getElementById("app2")
       );
+
+
+//getDefaultProps supply defaultValue that .isRequired para not requested
+      var Component2 = React.createClass({
+        propTypes: {
+          firstName: React.PropTypes.string.isRequired,
+          middleName: React.PropTypes.string,
+          familyName: React.PropTypes.string.isRequired,
+          address: React.PropTypes.string,
+        },
+
+        getDefaultProps: function() {
+          return {
+            middleName: '',
+            address : "なし"
+          };
+        },
+
+      render : function() {/* ....*/}
+      });
+
+
+//textArea custom component
+      var TextAreaCounter = React.createClass({
+        propTypes : {
+          defaultValue : React.PropTypes.string,
+        },
+
+        getDefaultProps: function() {
+          return {
+            defaultValue : '',
+          };
+        },
+        getInitialState: function() {
+          return {
+            // text : this.props.text,
+            defaultValue: this.props.defaultValue,//not to expect to set latest value for component caller
+          };
+        },
+        _textChange: function(ev){
+          console.log("aa")
+          this.setState({
+            defaultValue: ev.target.value,
+          });
+        },
+
+        render : function(){
+
+          return React.DOM.div (null,
+            React.DOM.textarea({
+              //defaultValue: this.props.text,
+              value: this.state.defaultValue,
+              onChange: this._textChange,
+            }),
+            React.DOM.h3(null, this.state.defaultValue.length)
+          );
+        }
+      })//TextAreaCounter
+
+      ReactDOM.render(
+        React.createElement(TextAreaCounter, {text: "bo"}),
+        document.getElementById("textarea")
+      );
+
+      var myTextAreaCounter = ReactDOM.render(
+        React.createElement(TextAreaCounter, { defaultValue: "ボブ"}),
+        document.getElementById("textarea")
+      )
+//propaty is role to send data , state is internal data stracture
+
     </script>
   </body>
 </html>
+
+
+<!--
+output memo
+myTextAreaCounter.setState({text: "from out"});
+undefined
+
+myTextAreaCounter.props
+{defaultValue: "ボブ"}
+
+myTextAreaCounter.state
+{defaultValue: "", text: "from out"}
+
+
+-->
