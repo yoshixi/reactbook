@@ -9,8 +9,9 @@
     <div id="app2"></div>
     <div id="app2-3-1"></div>
     <div id="textarea"></div>
-    <script src="react/react.js"></script>
-    <script src="react/react-dom.js"></script>
+    <script src="react/build/react.js"></script>
+    <script src="react/build/react-dom.js"></script>
+    <script src="react/build/react-with-addons.js"></script>
     <script>
       ReactDOM.render(
         React.DOM.h1({id : "my-heading",
@@ -65,19 +66,19 @@
       render : function() {/* ....*/}
       });
 
-
-//textArea custom component
-      var TextAreaCounter = React.createClass({
-
-
+//mixIn
+      var logMixin = {
         _log: function(methodName, args) {
-          console.log(methodName, args);
+          console.log(this.name + '::' +methodName, args);
         },
         componentWillUpdate: function() {
           this._log('componentWillUpdate', arguments);
         },
         componentDidUpdate: function() {
           this._log('componentDidUpdate', arguments);
+          // if(this.state.defaultValue.length > 4){
+          //   this.repraceState(oldState);
+          // };
         },
         componentWillMount: function() {
           this._log('componentWillMount', arguments);
@@ -88,7 +89,12 @@
         componentWillMount: function() {
           this._log('componentWillMount', arguments);
         },
+      }
 
+//textArea custom component
+      var TextAreaCounter = React.createClass({
+        name: 'TextAreaCounter',
+        mixins: [logMixin],
         propTypes : {
           defaultValue : React.PropTypes.string,
         },
@@ -112,6 +118,15 @@
         },
 
         render : function(){
+          console.log(this.name + '::render()');
+          var counter = null;
+          if (this.state.defaultValue.length > 0) {
+            counter = React.DOM.h3(null,
+              React.createElement(Counter, {
+                count: this.state.defaultValue.length,
+              })
+            );
+          }
 
           return React.DOM.div (null,
             React.DOM.textarea({
@@ -119,13 +134,13 @@
               value: this.state.defaultValue,
               onChange: this._textChange,
             }),
-            React.DOM.h3(null, this.state.defaultValue.length)
+            counter
           );
         }
       })//TextAreaCounter
 
       ReactDOM.render(
-        React.createElement(TextAreaCounter, {text: "bo"}),
+        React.createElement(TextAreaCounter, {text: "bob"}),
         document.getElementById("textarea")
       );
 
@@ -135,6 +150,19 @@
       )
 //propaty is role to send data , state is internal data stracture
 
+
+// children component
+      var Counter = React.createClass({
+        name: 'Counter',
+        mixins: [React.addons.PureRenderMixin],
+        propTypes: {
+          count: React.PropTypes.number.isRequired,
+        },
+        render : function() {
+          console.log(this.name + '::render()');
+          return React.DOM.span(null, this.props.count);
+        }
+      })
     </script>
   </body>
 </html>
