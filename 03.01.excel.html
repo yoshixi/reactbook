@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello React</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="app2"></div>
+    <div id="app2-3-1"></div>
+    <div id="textarea"></div>
+    <script src="react/build/react.js"></script>
+    <script src="react/build/react-dom.js"></script>
+    <script src="react/build/react-with-addons.js"></script>
+    <script>
+        var headers = ["title", "author", "language", "published_year", "sales_copies",];
+
+        var data = [
+          ["title01", "author01", "english", "1901", "1001milion"],
+          ["title02", "author02", "english", "1902", "1002milion"],
+          ["title03", "author03", "english", "1903", "1003milion"],
+          ["title04", "author04", "english", "1904", "1004milion"],
+          ["title05", "author05", "english", "1905", "1005milion"],
+          ["title06", "author06", "english", "1906", "1006milion"],
+          ["title07", "author07", "english", "1907", "1007milion"]
+        ];
+
+        var Excel = React.createClass({
+          render: function() {
+            return(
+              React.DOM.table(null,
+                React.DOM.thead(null,
+                  React.DOM.tr(null,
+                    this.props.headers.map(function(title){
+                      return React.DOM.th(null, title);
+                    })
+                  )
+                )
+              )
+            )
+          }
+        })//Excel
+
+        React.render(
+          React.createElement(Excel,{
+            headers: headers,
+            initialData: data,
+          }),
+          document.getElementById("app");
+        )
+    </script>
+  </body>
+</html>
+
+
+<!--
+output memo
+myTextAreaCounter.setState({text: "from out"});
+undefined
+
+myTextAreaCounter.props
+{defaultValue: "ボブ"}
+
+myTextAreaCounter.state
+{defaultValue: "", text: "from out"}
+
+
+-->
